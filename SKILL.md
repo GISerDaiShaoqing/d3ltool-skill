@@ -79,7 +79,7 @@ MODIS / VIIRS（LAADS DAAC）、MERRA-2（GES DISC）、GLASS（glass.hku.hk 公
   （文件名无 `h##v##`，如 `*_0_05D`）`tiles`/`bbox` 无效——别传了参数还疑惑没过滤。
 - GLASS 目录列表有礼貌策略：连续检索退避 8/24/72 秒 + 最终 15 秒冷却，列表间隔 ≥1.2 秒；
   同一 year 目录无论跨多大区间只列一次。别在循环里高频刷 GLASS 检索，合并成一次大区间。
-- HiGLASS 20m 变体（`LAI_HR`/`FAPAR_HR`）按 ~1120 个 1° 带目录检索：MCP 侧传 `bbox` 或
+- HiGLASS 20m 变体（`LAI_HR_LAI_V01` / `FAPAR_HR_FAPAR_V01`）按 ~1120 个 1° 带目录检索：MCP 侧传 `bbox` 或
   `tiles`（h##v##，自动换算地理范围求交）；**带名（`n045e120`）`tiles` 也直接接受**
   （v2.8.0 与 R 包对齐：显式带名与 bbox 求交取并集，只填带名时无需 bbox）。不带
   bbox/瓦片/带名会报错要求先定位。
@@ -94,14 +94,19 @@ MODIS / VIIRS（LAADS DAAC）、MERRA-2（GES DISC）、GLASS（glass.hku.hk 公
 d3ltool login        # 交互式 Earthdata 登录，持久化 ~/.netrc（Windows _netrc）
 d3ltool search MOD13Q1 --start 2020-01-01 --end 2020-12-31 --tile h25v03 --limit 200
 d3ltool download MOD13Q1 --start 2020-01-01 --end 2020-12-31 --tile h25v03 --dest D:/data
-d3ltool gui          # 桌面软件（search/download 参数两个子命令通用；--tile 可重复传）
+# --tile 对 search/download 通用：可重复传；HiGLASS 带状变体（LAI_HR_LAI_V01 等）
+# 可直接填带名 n045e120，与 h##v## 逗号/空格分隔混填
+d3ltool gui          # 桌面软件
 ```
 
-MCP 服务器注册（Claude Desktop / Cursor / ZCode 等通用）：
+MCP 服务器注册（Claude Desktop / Cursor 等通用）：
 
 ```json
 { "mcpServers": { "d3ltool": { "command": "d3ltool-mcp" } } }
 ```
+
+个别客户端键名/形态不同——**ZCode** 用 `mcp.servers` 且 schema 严格（`command` 必须字符串）、
+**OpenCode** 用数组 `command`：见 `references/troubleshooting.md`。
 
 stdio 验证：
 

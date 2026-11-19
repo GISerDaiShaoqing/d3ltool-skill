@@ -48,6 +48,14 @@
   ```json
   { "mcp": { "servers": { "d3ltool": { "type": "local", "command": ["d3ltool-mcp"] } } } }
   ```
+- **ZCode 键名也不同**：用户级注册写在 `~/.zcode/cli/config.json` 的 **`mcp.servers`** 键
+  （不是 `mcpServers`）。stdio 条目 schema 严格——`command` 必须是**字符串**、参数放 `args`
+  数组，**未知键会导致该服务器被静默丢弃**：
+  ```json
+  { "mcp": { "servers": { "d3ltool": { "type": "stdio", "command": "d3ltool-mcp" } } } }
+  ```
+  fallback `~/.agents/mcp.json`（顶层 `mcpServers`）仅当 ZCode 用户配置里没有任何 MCP
+  服务器时才生效；桌面端"设置 → MCP"可能接管服务器列表，接管后须在 UI 内管理。
 - stdio 快速验证：
   `echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"t","version":"0"}}}' | d3ltool-mcp`
   → 应返回含 `"serverInfo":{"name":"d3ltool"...}` 的一行 JSON。

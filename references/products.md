@@ -46,14 +46,17 @@ MERRA-2 为 `5.12.4`，`search_granules` 的 `version` 参数可精确过滤。
 - **变体 id** 形如 `LAI_MODIS_250M`：`{产品}_{传感器/来源}_{分辨率}`。目录由作者 R 包
   glass.sqdaitools 的核验登记表生成——133 个变体、131 个已核验（live number，以
   `list_products(group='GLASS')` 实测为准）。常见产品族：LAI、FPAR、Albedo、BBE、ET、DSR、
-  FVC、EVI、FAPAR、AGB、Crops、AWGF LST、FFC、EDD，以及 HiGLASS 20m（`LAI_HR`、`FAPAR_HR`）。
+  FVC、EVI、FAPAR、AGB、Crops、AWGF LST、FFC、EDD，以及 HiGLASS 20m
+  （`LAI_HR_LAI_V01`、`FAPAR_HR_FAPAR_V01`）。
 - **归档布局**：v2.6 起四种全覆盖——合成 DOY 目录 / 静态文件集 / 年目录 / `YYYYDDD` 日目录；
   v2.8.0 起 HiGLASS 20m 两个变体按 **1° 带目录**检索（~1120 个带，带名 = 单元格西南角，
   如 `n018e108`），bbox/瓦片自动求交、逐带列表带进度；MCP/CLI/GUI 的 `tiles`
   参数**均可直接填带名**（如 `tiles=["n045e120"]`，与 bbox 求交取并集，只填
-  带名时无需 bbox）。
+  带名时无需 bbox）。注意这两个 id 在登记表里 layout 仍标 flat（"无时间维"），但运行时经
+  `BAND_VARIANTS` 特判走带检索——**必须给 bbox/瓦片/带名**，否则报"需先定位"。
 - **静态集**（描述含"无时间维（固定层）"，如 `AGB_0.05D`、`Crops_PADDYCALENDAR`、
-  `FAPAR_HR_FAPAR_V01`、`Albedo_ABI_500M`）：检索**免日期**，`start`/`end` 不用传。
+  `Albedo_ABI_500M`）：检索**免日期**，`start`/`end` 不用传（HiGLASS 两个带变体虽也标
+  "无时间维"，但检索仍需定位，见上条）。
 - **全球 CMG 变体**（文件名无 `h##v##`，如 `*_0_05D`、`*_CMG_*`）：`tiles`/`bbox` **无效**，
   传了也不会过滤；瓦片型变体则按正弦网格与 bbox 精确求交。
 - **特例备注**（目录描述里已标注）：Albedo 多波段 BSA/WSA，选子数据集的后处理在作者 R 包中做；
