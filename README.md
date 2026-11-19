@@ -16,10 +16,10 @@ Earthdata auth boundaries, rate-limit politeness, and CLI fallbacks.
 
 ```bash
 # 用户级（所有项目可用）
-git clone <本仓库 URL> ~/.agents/skills/d3ltool
+git clone https://github.com/GISerDaiShaoqing/d3ltool-skill.git ~/.agents/skills/d3ltool
 
 # 或项目级（仅当前工作区可用）
-git clone <本仓库 URL> <your-project>/.agents/skills/d3ltool
+git clone https://github.com/GISerDaiShaoqing/d3ltool-skill.git <your-project>/.agents/skills/d3ltool
 ```
 
 ## 结构 / Layout
